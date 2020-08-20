@@ -30,11 +30,11 @@ const PERSIST = window.REMIRROR_PLAYGROUND_PERSIST;
 PERSIST.previousView = null;
 PERSIST.lastKnownGoodState = null;
 
-export function useRemirrorPlayground(
-  extensionManager: RemirrorManager<AnyCombinedUnion>,
+export function useRemirrorPlayground<Combined extends AnyCombinedUnion>(
+  extensionManager: RemirrorManager<Combined>,
 ): {
   value: EditorState;
-  onChange: RemirrorEventListener<AnyCombinedUnion>;
+  onChange: RemirrorEventListener<Combined>;
 } {
   const playground = useContext(PlaygroundContext);
   const [value, setValue] = useState<EditorState>(
@@ -44,7 +44,7 @@ export function useRemirrorPlayground(
         : EMPTY_PARAGRAPH_NODE,
     }),
   );
-  const onChange = useCallback<RemirrorEventListener<AnyCombinedUnion>>((event) => {
+  const onChange = useCallback<RemirrorEventListener<Combined>>((event) => {
     PERSIST.lastKnownGoodState = event.state;
     setValue(event.state);
   }, []);
@@ -61,6 +61,7 @@ export function useRemirrorPlayground(
       PERSIST.lastKnownGoodState = state;
       setValue(state);
     });
+
     return unlisten;
   }, [playground, extensionManager]);
 

@@ -15,6 +15,8 @@ function readPackage(pkg, context) {
   const updatePackage = createPackageUpdater(pkg, context);
 
   updatePackage({ name: 'serialize-javascript', version: '^4.0.0' });
+  updatePackage({ name: 'type-fest', version: '^0.16.0' });
+  updatePackage({ name: 'monaco-editor', version: 'npm:@typescript-deploys/monaco-editor@4.0.2' });
 
   return pkg;
 }

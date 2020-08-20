@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 
+/**
+ * The playground component which is currently exported as a rendered
+ */
 export const Playground: FC = () => {
   const [Component, setPlayground] = useState<FC | null>(null);
 

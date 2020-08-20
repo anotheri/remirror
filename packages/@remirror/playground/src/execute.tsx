@@ -1,74 +1,22 @@
 import * as crypto from 'crypto';
-import { languages } from 'monaco-editor';
+import { editor, languages } from 'monaco-editor';
 import React, { FC, useContext, useEffect, useRef } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-// addImport('@remirror/react', 'RemirrorProvider');
-// addImport('@remirror/react', 'useManager');
-// addImport('@remirror/react', 'useExtension');
-import { IMPORT_CACHE, INTERNAL_MODULES } from './_remirror';
+import { entries, Shape } from 'remirror/core';
+
+import { darkTheme } from './constants';
 import { PlaygroundContext, PlaygroundContextObject } from './context';
-// import * as remirrorCoreExtensions from '@remirror/core-extensions';
-//import * as remirrorReact from '@remirror/react';
-//import * as remirror from 'remirror';
 import { ErrorBoundary } from './error-boundary';
-import { acquiredTypeDefs, dtsCache } from './vendor/type-acquisition';
+import { DTS_CACHE, TYPE_DEFINITION_MAP } from './generated/exports';
+import { IMPORT_CACHE, INTERNAL_MODULES } from './generated/modules';
+import { getEditorFilePath, loadScript } from './playground-utils';
+import { acquiredTypeDefinitions, dtsCache } from './vendor/type-acquisition';
 
 // Start with these and cannot remove them
 export const REQUIRED_MODULES = INTERNAL_MODULES.map((mod) => mod.moduleName);
 
-const tsOptions: languages.typescript.CompilerOptions = {
-  // Maybe need to do manual syntax highlighting like found here:
-  // http://demo.rekit.org/element/src%2Ffeatures%2Feditor%2Fworkers%2FsyntaxHighlighter.js/code
-  jsx: languages.typescript.JsxEmit.React,
-  esModuleInterop: true,
-  allowSyntheticDefaultImports: true,
-};
-
-languages.typescript.typescriptDefaults.setCompilerOptions(tsOptions);
-languages.typescript.javascriptDefaults.setCompilerOptions(tsOptions);
-
-// const remirrorCore = { DocExtension, TextExtension, ParagraphExtension };
-export const addLibraryToRuntime = (code: string, path: string) => {
-  languages.typescript.typescriptDefaults.addExtraLib(code, path);
-};
-
-/*
-
-## IMPORTANT! ##
-
-For every module added here, you must provided `acquiredTypeDefs` below,
-otherwise it will fetch out-of-sync typedefs from npm
-
-*/
-
-REQUIRED_MODULES.forEach((moduleName) => {
-  acquiredTypeDefs[moduleName] = {
-    types: {
-      ts: 'included',
-    },
-  };
-  // This is a really bad hack, really there should just be one `package.json`
-  // at the root of the module.
-  acquiredTypeDefs[`node_modules/${moduleName}/package.json`] = JSON.stringify({
-    // This should be the package.json
-    name: moduleName,
-    types: 'index.d.ts',
-  });
-  dtsCache[moduleName] = {
-    'index.d.ts': `
-declare module "${moduleName}" {
-  const foo: any;
-  export default foo;
-}
-`,
-  };
-  addLibraryToRuntime(
-    acquiredTypeDefs[`node_modules/${moduleName}/package.json`] as any,
-    `node_modules/${moduleName}/package.json`,
-  );
-  addLibraryToRuntime(dtsCache[moduleName]['index.d.ts'], `node_modules/${moduleName}/index.d.ts`);
-});
+editor.setTheme('darkTheme');
 
 const fetchedModules: {
   [id: string]: {
@@ -81,22 +29,17 @@ function hash(str: string): string {
   return `_${crypto.createHash('sha1').update(str).digest('hex')}`;
 }
 
-function bundle(moduleName: string, id: string): Promise<any> {
-  return new Promise((resolve, reject) => {
-    const el = document.createElement('script');
-    el.addEventListener('load', () => {
-      console.log(`LOADED ${moduleName}`);
-      resolve((window as any)[id]);
-    });
-    el.addEventListener('error', (_event) => {
-      // We cannot really get details from the event because browsers prevent that for security reasons.
-      reject(new Error(`Failed to load ${el.src}`));
-    });
-    el.src = `http://bundle.run/${encodeURIComponent(moduleName)}@latest?name=${encodeURIComponent(
-      id,
-    )}`;
-    document.body.append(el);
-  });
+async function bundle(moduleName: string, id: string): Promise<any> {
+  try {
+    await loadScript(
+      `http://bundle.run/${encodeURIComponent(moduleName)}@latest?name=${encodeURIComponent(id)}`,
+    );
+
+    console.log(`LOADED: ${moduleName}`);
+    return (window as Shape)[id];
+  } catch {
+    console.error(`Failed to load ${moduleName}`);
+  }
 }
 
 export async function makeRequire(requires: string[]) {
@@ -146,6 +89,7 @@ function runCode(code: string, requireFn: (mod: string) => any) {
     userModule,
     userModule.exports,
   );
+
   return userModule;
 }
 
@@ -158,6 +102,7 @@ function runCodeInDiv(
   }: { code: string; requires: string[]; playground: PlaygroundContextObject },
 ) {
   let active = true;
+
   (async function doIt() {
     try {
       // First do the requires.

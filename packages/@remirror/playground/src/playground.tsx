@@ -6,13 +6,12 @@ import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 're
 import { debounce } from '@remirror/core-helpers';
 import type { EditorState } from 'remirror/core';
 
-import CodeEditor from './code-editor';
+import { Divide, Main, Panel, PlaygroundCodeEditor, StyledContainer } from './components';
 import { PlaygroundContext, PlaygroundContextObject } from './context';
 import { ErrorBoundary } from './error-boundary';
 import { makeRequire, REQUIRED_MODULES } from './execute';
 import type { CodeOptions, Exports, RemirrorModules } from './interfaces';
 import { makeCode } from './make-code';
-import { Container, Divide, Main, Panel } from './primitives';
 import { SimplePanel } from './simple-panel';
 import { Viewer } from './viewer';
 
@@ -98,13 +97,15 @@ export const Playground: FC = () => {
   const removeModule = useCallback((moduleName: string) => {
     setModules(({ [moduleName]: _moduleToDelete, ...remainingModules }) => remainingModules);
   }, []);
+
   useEffect(() => {
     for (const requiredModule of REQUIRED_MODULES) {
       if (!modules[requiredModule]) {
         addModule(requiredModule);
       }
     }
-  });
+  }, [addModule, modules]);
+
   const [options, setOptions] = useState({
     extensions: [
       // {
@@ -164,8 +165,6 @@ export const Playground: FC = () => {
 
   const setPlaygroundState = useCallback(
     (state) => {
-      console.log('Restoring state');
-      console.dir(state);
       assert(typeof state === 'object' && state, 'Expected state to be an object');
       assert(typeof state.m === 'number', 'Expected mode to be a number');
 
@@ -300,7 +299,7 @@ export const Playground: FC = () => {
 
   return (
     <PlaygroundContext.Provider value={playground}>
-      <Container>
+      <StyledContainer>
         <Main>
           {advanced ? null : (
             <>
@@ -328,11 +327,7 @@ export const Playground: FC = () => {
                   position: 'relative',
                 }}
               >
-                <CodeEditor
-                  value={advanced ? value : code}
-                  onChange={setValue}
-                  readOnly={!advanced}
-                />
+                <PlaygroundCodeEditor />
                 <div style={{ position: 'absolute', bottom: '1rem', right: '2rem' }}>
                   {advanced ? (
                     <button onClick={handleToggleAdvanced}>☑️ Enter simple mode</button>
@@ -374,7 +369,7 @@ export const Playground: FC = () => {
             </div>
           </Panel>
         </Main>
-      </Container>
+      </StyledContainer>
     </PlaygroundContext.Provider>
   );
 };

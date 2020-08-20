@@ -192,11 +192,14 @@ module.exports = {
       },
     ],
 
-    // @todo Set `explicit-module-boundary-types` lint rule to `error` once all
-    // issues are resolve @block All exported methods that are exposed to end
-    // users should be explicitly typed. It makes for better readability when
-    // contributing since inference requires more work to determine the return
-    // types, and also it forces deliberate planning.
+    /**
+     * @todo Set `explicit-module-boundary-types` lint rule to `error` once all
+     * issues are resolved
+     * @block All exported methods that are exposed to end users should be
+     * explicitly typed. It makes for better readability when contributing since
+     * inference requires more work to determine the return types, and also it
+     * forces deliberate planning.
+     */
     '@typescript-eslint/explicit-module-boundary-types': [
       'warn',
       { allowedNames: ['name', 'createHelpers', 'createCommands', 'createExtensions'] },
@@ -204,7 +207,7 @@ module.exports = {
 
     // Turning off as it leads to code with bad patterns, where implementation
     // details are placed before the actual meaningful code.
-    '@typescript-eslint/no-use-before-define': ['off', { typedefs: false }],
+    '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/member-ordering': [
       'warn',
       { default: ['signature', 'static-field', 'static-method', 'field', 'constructor', 'method'] },
@@ -331,7 +334,11 @@ module.exports = {
       },
     },
     {
-      files: ['support/scripts/**', 'support/e2e/**', 'packages/@remirror/playground/scripts/**'],
+      files: [
+        'support/scripts/**/*.js',
+        'support/e2e/**/*.{js,ts}',
+        'packages/@remirror/playground/scripts/import-remirror.ts',
+      ],
       rules: {
         '@typescript-eslint/ban-ts-comment': 'off',
         'unicorn/no-process-exit': 'off',
@@ -348,7 +355,7 @@ module.exports = {
       },
     },
     {
-      files: ['packages/@remirror/playground/**', 'support/e2e/**'],
+      files: ['packages/@remirror/playground/**', 'support/e2e/**/*.{js,ts}'],
       rules: { '@typescript-eslint/no-var-requires': 'off' },
     },
     {

@@ -26,6 +26,8 @@
     "@remirror/playground": "1.0.0-next.30",
     "@remirror/showcase": "1.0.0-next.30",
     "clsx": "^1.1.1",
+    "@emotion/core":"^10.0.35",
+    "@emotion/styled":"^10.0.27",
     "core-js": "^3.6.5",
     "docusaurus": "2.0.0-alpha.61",
     "is-absolute-url": "^3.0.3",
