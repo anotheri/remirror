@@ -1,5 +1,15 @@
 # @remirror/dev
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Patch Changes
+
+- Updated dependencies [[`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9)]:
+  - @remirror/react@1.0.0-next.33
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

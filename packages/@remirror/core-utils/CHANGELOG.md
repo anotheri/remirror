@@ -1,5 +1,18 @@
 # @remirror/core-utils
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Patch Changes
+
+- [`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9) [#658](https://github.com/remirror/remirror/pull/658) Thanks [@ifiokjr](https://github.com/ifiokjr)! - Fix editable mentions support for exiting when text is selected. Also update `getSelection` to support `anchor` and `head` selections.
+
+- Updated dependencies [[`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677), [`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9)]:
+  - @remirror/core-types@1.0.0-next.33
+  - @remirror/core-helpers@1.0.0-next.33
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

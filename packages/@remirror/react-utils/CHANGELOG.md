@@ -1,5 +1,15 @@
 # @remirror/react-utils
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Patch Changes
+
+- Updated dependencies [[`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677), [`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9)]:
+  - @remirror/core-types@1.0.0-next.33
+  - @remirror/core-helpers@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

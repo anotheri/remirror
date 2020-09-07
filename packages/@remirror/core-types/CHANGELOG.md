@@ -1,5 +1,20 @@
 # @remirror/core-types
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Minor Changes
+
+- [`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677) [#655](https://github.com/remirror/remirror/pull/655) Thanks [@ifiokjr](https://github.com/ifiokjr)! - Add `AcceptUndefined` annotation which allows options to accept undefined as their default value.
+
+* [`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9) [#658](https://github.com/remirror/remirror/pull/658) Thanks [@ifiokjr](https://github.com/ifiokjr)! - Add new `AnchorHeadParameter` export and make it a part of `PrimitiveSelection` type.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

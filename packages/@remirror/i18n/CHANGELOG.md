@@ -1,5 +1,15 @@
 # @remirror/i18n
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @remirror/core-helpers@1.0.0-next.33
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

@@ -1,5 +1,52 @@
 # @remirror/core
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Minor Changes
+
+- [`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677) [#655](https://github.com/remirror/remirror/pull/655) Thanks [@ifiokjr](https://github.com/ifiokjr)! - Add `AcceptUndefined` annotation which allows options to accept undefined as their default value.
+
+* [`d47bd78f`](https://github.com/remirror/remirror/commit/d47bd78fe210df68c3d9da4e613bc02a3bbfa624) [#657](https://github.com/remirror/remirror/pull/657) Thanks [@ifiokjr](https://github.com/ifiokjr)! - 🎉 Brings support for adding extra attributes to the `RemirrorManager` via extension tags. Attributes can now be added to all nodes and marks with a specific tag like `ExtensionTag.Alignment` or `ExtensionTag.NodeBlock`. Every matching tag in the `Schema` receives the extra attributes defined.
+
+  With tags, you can select a specific sub selection of marks and nodes. This will be the basis for adding advanced formatting to `remirror`.
+
+  ```ts
+  import { ExtensionTag } from 'remirror/core';
+  import { createCoreManager, CorePreset } from 'remirror/preset/core';
+  import { WysiwygPreset } from 'remirror/preset/wysiwyg';
+  const manager = createCoreManager(() => [new WysiwygPreset(), new CorePreset()], {
+    extraAttributes: [
+      {
+        identifiers: {
+          tags: [ExtensionTag.NodeBlock],
+
+          // Can be limited by type to `node | mark`.
+          type: 'node',
+        },
+        attributes: { role: 'presentation' },
+      },
+    ],
+  });
+  ```
+
+  Each item in the tags array should be read as an `OR` so the following would match `Tag1` OR `Tag2` OR `Tag3`.
+
+  ```json
+  { "tags": ["Tag1", "Tag2", "Tag3"] }
+  ```
+
+  The `type` property (`mark | node`) is exclusive and limits the type of matches that will be matched.
+
+### Patch Changes
+
+- Updated dependencies [[`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9), [`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677), [`92ed4135`](https://github.com/remirror/remirror/commit/92ed41350eb540fa9ab5de72cd90f605cdbbc7e9)]:
+  - @remirror/core-utils@1.0.0-next.33
+  - @remirror/core-types@1.0.0-next.33
+  - @remirror/core-helpers@1.0.0-next.33
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05

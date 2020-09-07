@@ -1,5 +1,15 @@
 # @remirror/extension-mention
 
+## 1.0.0-next.33
+
+> 2020-09-07
+
+### Patch Changes
+
+- Updated dependencies [[`525ac3d8`](https://github.com/remirror/remirror/commit/525ac3d8c826df93e0cedac6736ade02759f7677), [`d47bd78f`](https://github.com/remirror/remirror/commit/d47bd78fe210df68c3d9da4e613bc02a3bbfa624)]:
+  - @remirror/core@1.0.0-next.33
+  - @remirror/pm@1.0.0-next.33
+
 ## 1.0.0-next.32
 
 > 2020-09-05
